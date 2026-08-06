@@ -1,14 +1,64 @@
+# macOS / editor noise
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Jupyter
 .ipynb_checkpoints/
 .jupyter/
-__pycache__/
-*.pyc
-*.pyo
-*.log
-*.tmp
-.DS_Store
-.env
-venv/
+
+# Node / frontend builds
 node_modules/
 client/node_modules/
+server/node_modules/
+client/dist/
 dist/
 build/
+
+# Environment and credentials
+.env
+.env.*
+!.env.example
+server/.env
+email_service/.env
+token.json
+credentials-gmail.json
+credentials*.json
+
+# Runtime databases
+*.db
+*.sqlite
+*.sqlite3
+email_service/email_automation.db
+
+# Logs and generated runtime output
+*.log
+*.tmp
+log.txt
+ml_log.txt
+client/vite_log.txt
+
+# Generated raw data; keep curated sample processed data tracked
+data/raw/
+
+# Accidental root npm lockfile; package locks inside client/server are intentional
+/package-lock.json
