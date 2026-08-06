@@ -7,9 +7,9 @@ const API_BASE = 'http://localhost:8000/api/v1'
 
 const StatusBadge = ({ status }) => {
   const styles = {
-    PENDING: 'bg-yellow-500/20 text-yellow-400',
-    SENT: 'bg-emerald-500/20 text-emerald-400',
-    FAILED: 'bg-red-500/20 text-red-400',
+    PENDING: 'badge-medium',
+    SENT: 'badge-low',
+    FAILED: 'badge-high',
   }
   
   const icons = {
@@ -54,11 +54,11 @@ export default function EmailHistoryTable({ campaignId }) {
   if (!campaignId) return <div className="text-secondary text-sm">Select a campaign to view logs.</div>
   
   return (
-    <div className="glass-card rounded-xl border border-subtle overflow-hidden">
+    <div className="glass-card rounded-lg border border-subtle overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-subtle bg-white/5">
+            <tr className="border-b border-subtle" style={{ background: 'var(--control-bg)' }}>
               <th className="px-4 py-3 text-xs font-semibold text-secondary uppercase tracking-wider">Email</th>
               <th className="px-4 py-3 text-xs font-semibold text-secondary uppercase tracking-wider">Status</th>
               <th className="px-4 py-3 text-xs font-semibold text-secondary uppercase tracking-wider">Sent At</th>
@@ -72,7 +72,7 @@ export default function EmailHistoryTable({ campaignId }) {
               <tr><td colSpan="4" className="px-4 py-4 text-center text-sm text-secondary">No logs found.</td></tr>
             ) : (
               logs.map((log) => (
-                <tr key={log.id} className="hover:bg-white/5 transition-colors">
+                <tr key={log.id} className="transition-colors">
                   <td className="px-4 py-3 text-sm font-medium text-primary">{log.customer_email}</td>
                   <td className="px-4 py-3"><StatusBadge status={log.status} /></td>
                   <td className="px-4 py-3 text-sm text-secondary">

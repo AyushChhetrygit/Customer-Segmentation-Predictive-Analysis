@@ -29,8 +29,8 @@ export default function Navbar({ onMenuClick }) {
     setRefreshing(true)
     triggerRefresh()
     toast.success('Data refreshed!', {
-      style: { background: 'rgba(15,23,42,0.95)', color: '#F1F5F9', border: '1px solid rgba(34,211,238,0.3)' },
-      iconTheme: { primary: '#22D3EE', secondary: '#0F172A' },
+      style: { background: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid var(--border-color)' },
+      iconTheme: { primary: '#6B55D3', secondary: '#FFFFFF' },
     })
     setTimeout(() => setRefreshing(false), 1000)
   }
@@ -38,13 +38,14 @@ export default function Navbar({ onMenuClick }) {
   return (
     <header
       className="h-16 flex items-center justify-between px-4 lg:px-6 border-b border-subtle z-20 relative"
-      style={{ background: 'var(--sidebar-bg)', backdropFilter: 'blur(20px)' }}
+      style={{ background: 'var(--sidebar-bg)' }}
     >
       {/* Left - Menu + Title */}
       <div className="flex items-center gap-4">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors text-secondary"
+          className="lg:hidden p-2 rounded-lg transition-colors text-secondary"
+          style={{ background: 'var(--control-bg)' }}
         >
           <Menu size={20} />
         </button>
@@ -58,7 +59,7 @@ export default function Navbar({ onMenuClick }) {
 
       {/* Center - Search */}
       <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl max-w-xs w-full mx-4"
-        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-color)' }}>
+        style={{ background: 'var(--control-bg)', border: '1px solid var(--border-color)', borderRadius: 8 }}>
         <Search size={14} className="text-muted-custom flex-shrink-0" />
         <input
           placeholder="Search customers, segments..."
@@ -102,10 +103,10 @@ export default function Navbar({ onMenuClick }) {
           <button
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl transition-all"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-color)' }}
+            style={{ background: 'var(--control-bg)', border: '1px solid var(--border-color)', borderRadius: 8 }}
           >
             <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
-              style={{ background: 'linear-gradient(135deg,#22D3EE,#A855F7)' }}>
+              style={{ background: 'var(--accent-1)' }}>
               A
             </div>
             <span className="text-sm font-medium text-primary hidden sm:inline">Admin</span>
@@ -121,7 +122,8 @@ export default function Navbar({ onMenuClick }) {
                 <button
                   key={item}
                   onClick={() => setProfileOpen(false)}
-                  className="w-full text-left px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-white/5 transition-colors"
+                  className="w-full text-left px-4 py-2 text-sm text-secondary hover:text-primary transition-colors"
+                  style={{ background: 'transparent' }}
                 >
                   {item}
                 </button>

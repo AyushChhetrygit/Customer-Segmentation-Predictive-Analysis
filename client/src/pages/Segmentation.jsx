@@ -38,22 +38,22 @@ export default function Segmentation() {
         <SegmentScatterPlot data={scatter} loading={loading} />
 
         {/* Segment Pie */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-5 rounded-2xl">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-5 rounded-lg">
           <h3 className="font-semibold text-base text-primary mb-1">Segment Share</h3>
           <p className="text-xs text-secondary mb-4">Distribution across segments</p>
           <ResponsiveContainer width="100%" height={240}>
             <PieChart>
               <Pie data={segments || []} cx="50%" cy="50%" outerRadius={90} dataKey="count" paddingAngle={3}
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                labelLine={{ stroke: 'rgba(255,255,255,0.2)' }}
+                labelLine={{ stroke: 'var(--chart-grid)' }}
               >
                 {(segments || []).map((entry) => (
-                  <Cell key={entry.name} fill={SEGMENT_COLORS[entry.name] || '#6366F1'} fillOpacity={0.85} />
+                  <Cell key={entry.name} fill={SEGMENT_COLORS[entry.name] || '#6B55D3'} fillOpacity={0.9} />
                 ))}
               </Pie>
               <Tooltip formatter={(v) => [`${v} customers`, 'Count']}
-                contentStyle={{ background: 'rgba(15,23,42,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
-                labelStyle={{ color: '#F1F5F9' }} itemStyle={{ color: '#94A3B8' }}
+                contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8 }}
+                labelStyle={{ color: 'var(--text-primary)' }} itemStyle={{ color: 'var(--text-secondary)' }}
               />
             </PieChart>
           </ResponsiveContainer>
@@ -61,8 +61,8 @@ export default function Segmentation() {
           {/* Stat rows */}
           <div className="mt-4 grid grid-cols-2 gap-3">
             {(segments || []).map(s => (
-              <div key={s.name} className="flex items-center gap-2 px-3 py-2 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
+              <div key={s.name} className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                style={{ background: 'var(--control-bg)', border: '1px solid var(--border-color)' }}>
                 <span className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ background: SEGMENT_COLORS[s.name] || '#6366F1' }} />
                 <div>

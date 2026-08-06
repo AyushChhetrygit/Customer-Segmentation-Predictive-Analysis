@@ -3,32 +3,20 @@ import { TrendingUp, TrendingDown } from 'lucide-react'
 
 const CARD_CONFIGS = {
   cyan: {
-    gradient: 'linear-gradient(135deg, rgba(34,211,238,0.15), rgba(129,140,248,0.1))',
-    border: 'rgba(34,211,238,0.3)',
-    glow: '0 0 25px rgba(34,211,238,0.15)',
-    accent: '#22D3EE',
-    iconBg: 'rgba(34,211,238,0.12)',
+    accent: '#6B55D3',
+    iconBg: 'rgba(107,85,211,0.1)',
   },
   purple: {
-    gradient: 'linear-gradient(135deg, rgba(168,85,247,0.15), rgba(236,72,153,0.1))',
-    border: 'rgba(168,85,247,0.3)',
-    glow: '0 0 25px rgba(168,85,247,0.15)',
-    accent: '#A855F7',
-    iconBg: 'rgba(168,85,247,0.12)',
+    accent: '#6B55D3',
+    iconBg: 'rgba(107,85,211,0.1)',
   },
   pink: {
-    gradient: 'linear-gradient(135deg, rgba(236,72,153,0.15), rgba(251,146,60,0.1))',
-    border: 'rgba(236,72,153,0.3)',
-    glow: '0 0 25px rgba(236,72,153,0.15)',
-    accent: '#EC4899',
-    iconBg: 'rgba(236,72,153,0.12)',
+    accent: '#FF4F4F',
+    iconBg: 'rgba(255,79,79,0.1)',
   },
   green: {
-    gradient: 'linear-gradient(135deg, rgba(16,185,129,0.15), rgba(34,211,238,0.1))',
-    border: 'rgba(16,185,129,0.3)',
-    glow: '0 0 25px rgba(16,185,129,0.15)',
-    accent: '#10B981',
-    iconBg: 'rgba(16,185,129,0.12)',
+    accent: '#22B26F',
+    iconBg: 'rgba(34,178,111,0.1)',
   },
 }
 
@@ -37,7 +25,7 @@ export default function KPICard({ title, value, subtitle, icon: Icon, color = 'c
 
   if (loading) {
     return (
-      <div className="glass-card p-5 rounded-2xl animate-fadeIn">
+      <div className="glass-card p-5 rounded-lg animate-fadeIn">
         <div className="skeleton h-4 w-24 mb-3 rounded"/>
         <div className="skeleton h-8 w-32 mb-2 rounded"/>
         <div className="skeleton h-3 w-20 rounded"/>
@@ -52,26 +40,22 @@ export default function KPICard({ title, value, subtitle, icon: Icon, color = 'c
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
-      className="relative overflow-hidden rounded-2xl p-5 cursor-default"
+      className="relative overflow-hidden rounded-lg p-5 cursor-default"
       style={{
-        background: cfg.gradient,
-        border: `1px solid ${cfg.border}`,
-        boxShadow: cfg.glow,
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-color)',
+        boxShadow: 'var(--card-shadow)',
       }}
     >
-      {/* Decorative blob */}
-      <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full opacity-20 blur-xl"
-        style={{ background: cfg.accent }} />
-
       <div className="relative flex items-start justify-between">
         <div>
           <p className="text-xs font-medium text-secondary uppercase tracking-wider mb-2">{title}</p>
           <p className="text-2xl font-bold text-primary leading-none mb-1">{value}</p>
           {subtitle && <p className="text-xs text-secondary mt-1">{subtitle}</p>}
           {trend !== undefined && (
-            <div className={`flex items-center gap-1 mt-2 text-xs font-semibold ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <div className="flex items-center gap-1 mt-2 text-xs font-semibold"
+              style={{ color: isPositive ? 'var(--success)' : 'var(--danger)' }}>
               {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
               <span>{isPositive ? '+' : '-'}{trendAbs}% vs prev period</span>
             </div>

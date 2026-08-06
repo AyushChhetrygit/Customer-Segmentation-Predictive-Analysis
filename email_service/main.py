@@ -30,13 +30,44 @@ async def on_startup():
     from database import SessionLocal
     import models
     db = SessionLocal()
-    if not db.query(models.Template).first():
-        db.add(models.Template(
+    default_templates = [
+        models.Template(
             name="Welcome Back - VIP",
             subject="Exclusive {{ DiscountPercentage }} Off Just For You, {{ CustomerName }}!",
             html_content="<h1>Hi {{ CustomerName }}!</h1><p>Because you are in our <strong>{{ SegmentName }}</strong> group, we are offering you <strong>{{ DiscountPercentage }}</strong> off your next order.</p><p>As someone who has spent over ${{ TotalSpend }}, we value your business!</p>"
-        ))
-        db.commit()
+        ),
+        models.Template(
+            name="High Churn Retention Campaign",
+            subject="{{ CustomerName }}, your {{ OfferValue }} retention reward is ready",
+            html_content="""
+            <div style="font-family: Helvetica, Arial, sans-serif; color: #101014; line-height: 1.5;">
+              <h2 style="margin-bottom: 8px;">Hi {{ CustomerName }},</h2>
+              <p>We noticed your recent activity has slowed down: <strong>{{ ChurnReason }}</strong>.</p>
+              <p>{{ OfferHeadline }}</p>
+              <div style="border: 1px solid #e7e7ea; border-radius: 8px; padding: 16px; margin: 18px 0;">
+                <p style="margin: 0 0 6px; color: #595a64;">Your offer</p>
+                <h3 style="margin: 0; color: #6B55D3;">{{ OfferValue }}</h3>
+                <p style="margin: 8px 0 0;">{{ OfferDescription }}</p>
+                <p style="margin: 12px 0 0;"><strong>Offer code:</strong> {{ OfferCode }}</p>
+              </div>
+              <p>
+                <a href="{{ RedeemLink }}" style="background: #6B55D3; color: #ffffff; text-decoration: none; padding: 10px 16px; border-radius: 8px; display: inline-block;">
+                  Redeem offer
+                </a>
+              </p>
+              <p style="margin-top: 16px;">Or scan this QR code:</p>
+              <img src="{{ QRCodeImageUrl }}" alt="Retention offer QR code" width="160" height="160" style="border: 1px solid #e7e7ea; border-radius: 8px; padding: 8px;" />
+              <p style="color: #595a64; font-size: 13px;">This offer expires in {{ ExpiryDays }} days.</p>
+            </div>
+            """
+        ),
+    ]
+
+    for template in default_templates:
+        exists = db.query(models.Template).filter(models.Template.name == template.name).first()
+        if not exists:
+            db.add(template)
+    db.commit()
     db.close()
 
 @app.on_event("shutdown")

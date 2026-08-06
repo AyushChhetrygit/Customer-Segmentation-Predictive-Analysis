@@ -5,9 +5,9 @@ import {
 import { motion } from 'framer-motion'
 
 const CHURN_COLORS = {
-  Low: '#10B981',
-  Medium: '#F59E0B',
-  High: '#EF4444',
+  Low: '#22B26F',
+  Medium: '#FF6B2B',
+  High: '#FF4F4F',
 }
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -23,7 +23,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 export default function ChurnBarChart({ data, loading }) {
   if (loading) {
     return (
-      <div className="glass-card p-5 rounded-2xl">
+      <div className="glass-card p-5 rounded-lg">
         <div className="skeleton h-4 w-36 mb-4 rounded"/>
         <div className="skeleton h-52 w-full rounded-xl"/>
       </div>
@@ -35,7 +35,7 @@ export default function ChurnBarChart({ data, loading }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-      className="glass-card p-5 rounded-2xl"
+      className="glass-card p-5 rounded-lg"
     >
       <div className="flex items-start justify-between mb-4">
         <div>
@@ -55,15 +55,15 @@ export default function ChurnBarChart({ data, loading }) {
 
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data || []} barCategoryGap="35%" margin={{ top: 10, right: 5, bottom: 0, left: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
-          <XAxis dataKey="name" tick={{ fill: '#64748B', fontSize: 12 }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} tickLine={false} />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
+          <XAxis dataKey="name" tick={{ fill: 'var(--chart-tick)', fontSize: 12 }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fill: 'var(--chart-tick)', fontSize: 11 }} axisLine={false} tickLine={false} />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--control-hover)' }} />
           <Bar dataKey="count" radius={[6, 6, 0, 0]}>
             {(data || []).map((entry) => (
               <Cell key={entry.name} fill={CHURN_COLORS[entry.name] || '#6366F1'} fillOpacity={0.85} />
             ))}
-            <LabelList dataKey="count" position="top" style={{ fill: '#94A3B8', fontSize: 12, fontWeight: 600 }} />
+            <LabelList dataKey="count" position="top" style={{ fill: 'var(--chart-tick)', fontSize: 12, fontWeight: 600 }} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>

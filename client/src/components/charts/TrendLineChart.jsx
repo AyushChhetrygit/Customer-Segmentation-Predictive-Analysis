@@ -30,7 +30,7 @@ export default function TrendLineChart({ data, loading }) {
 
   if (loading) {
     return (
-      <div className="glass-card p-5 rounded-2xl">
+      <div className="glass-card p-5 rounded-lg">
         <div className="skeleton h-4 w-40 mb-4 rounded"/>
         <div className="skeleton h-56 w-full rounded-xl"/>
       </div>
@@ -40,7 +40,7 @@ export default function TrendLineChart({ data, loading }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-      className="glass-card p-5 rounded-2xl"
+      className="glass-card p-5 rounded-lg"
     >
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -53,8 +53,9 @@ export default function TrendLineChart({ data, loading }) {
               key={r}
               onClick={() => setRange(r)}
               className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
-                range === r ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' : 'text-secondary hover:text-primary'
+                range === r ? 'border' : 'text-secondary hover:text-primary'
               }`}
+              style={range === r ? { background: 'var(--accent-soft)', color: 'var(--accent-1)', borderColor: 'color-mix(in srgb, var(--accent-1) 32%, transparent)' } : undefined}
             >
               {r}
             </button>
@@ -66,30 +67,30 @@ export default function TrendLineChart({ data, loading }) {
         <AreaChart data={data || []} margin={{ top: 5, right: 5, bottom: 0, left: 0 }}>
           <defs>
             <linearGradient id="gradSpend" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#22D3EE" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#22D3EE" stopOpacity={0} />
+              <stop offset="5%" stopColor="#6B55D3" stopOpacity={0.22} />
+              <stop offset="95%" stopColor="#6B55D3" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="gradEngagement" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#A855F7" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#A855F7" stopOpacity={0} />
+              <stop offset="5%" stopColor="#FF5F2E" stopOpacity={0.18} />
+              <stop offset="95%" stopColor="#FF5F2E" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-          <XAxis dataKey="date" tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} tickLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+          <XAxis dataKey="date" tick={{ fill: 'var(--chart-tick)', fontSize: 11 }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fill: 'var(--chart-tick)', fontSize: 11 }} axisLine={false} tickLine={false} />
           <Tooltip content={<CustomTooltip />} />
           <Legend
-            wrapperStyle={{ fontSize: '12px', color: '#94A3B8', paddingTop: '8px' }}
+            wrapperStyle={{ fontSize: '12px', color: 'var(--chart-tick)', paddingTop: '8px' }}
           />
           <Area
             type="monotone" dataKey="totalSpend" name="Total Spend"
-            stroke="#22D3EE" strokeWidth={2.5}
-            fill="url(#gradSpend)" dot={false} activeDot={{ r: 5, fill: '#22D3EE' }}
+            stroke="#6B55D3" strokeWidth={2.5}
+            fill="url(#gradSpend)" dot={false} activeDot={{ r: 5, fill: '#6B55D3' }}
           />
           <Area
             type="monotone" dataKey="avgEngagement" name="Avg Engagement"
-            stroke="#A855F7" strokeWidth={2.5}
-            fill="url(#gradEngagement)" dot={false} activeDot={{ r: 5, fill: '#A855F7' }}
+            stroke="#FF5F2E" strokeWidth={2.5}
+            fill="url(#gradEngagement)" dot={false} activeDot={{ r: 5, fill: '#FF5F2E' }}
           />
         </AreaChart>
       </ResponsiveContainer>

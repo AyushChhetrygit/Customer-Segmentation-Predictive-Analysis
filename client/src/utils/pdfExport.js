@@ -33,7 +33,7 @@ export async function generatePDFReport() {
       const canvas = await html2canvas(pageEl, {
         scale: 2, // High resolution
         useCORS: true,
-        backgroundColor: '#0F172A',
+        backgroundColor: '#FFFFFF',
         logging: false,
       })
 

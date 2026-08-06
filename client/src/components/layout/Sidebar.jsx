@@ -42,13 +42,13 @@ export default function Sidebar({ open, onClose }) {
         className={`fixed top-0 left-0 h-full w-64 z-40 flex flex-col transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
-        style={{ background: 'var(--sidebar-bg)', borderRight: '1px solid var(--border-color)', backdropFilter: 'blur(20px)' }}
+        style={{ background: 'var(--sidebar-bg)', borderRight: '1px solid var(--border-color)' }}
       >
         {/* Logo */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-subtle">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg,#22D3EE,#A855F7)' }}>
+              style={{ background: 'var(--accent-1)' }}>
               <BarChart3 size={16} className="text-white" />
             </div>
             <div>
@@ -80,10 +80,10 @@ export default function Sidebar({ open, onClose }) {
 
         {/* Bottom badge */}
         <div className="px-4 py-4 border-t border-subtle">
-          <div className="glass-card p-3 rounded-xl">
+          <div className="glass-card p-3 rounded-lg">
             <div className="flex items-center gap-2 mb-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-slow"></span>
-              <span className="text-xs font-medium text-emerald-400">Live Data</span>
+              <span className="w-2 h-2 rounded-full animate-pulse-slow" style={{ background: 'var(--success)' }}></span>
+              <span className="text-xs font-medium" style={{ color: 'var(--success)' }}>Live Data</span>
             </div>
             <p className="text-xs text-secondary">Auto-refreshes every 3 min</p>
           </div>

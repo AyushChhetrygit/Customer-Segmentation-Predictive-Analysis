@@ -34,7 +34,7 @@ const CustomTooltip = ({ active, payload }) => {
 export default function SegmentScatterPlot({ data, loading }) {
   if (loading) {
     return (
-      <div className="glass-card p-5 rounded-2xl">
+      <div className="glass-card p-5 rounded-lg">
         <div className="skeleton h-4 w-44 mb-4 rounded"/>
         <div className="skeleton h-56 w-full rounded-xl"/>
       </div>
@@ -47,32 +47,32 @@ export default function SegmentScatterPlot({ data, loading }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-      className="glass-card p-5 rounded-2xl"
+      className="glass-card p-5 rounded-lg"
     >
       <div className="mb-4">
         <h3 className="font-semibold text-base text-primary">Customer Segmentation</h3>
-        <p className="text-xs text-secondary mt-0.5">Frequency vs Monetary — bubble size = CLV</p>
+        <p className="text-xs text-secondary mt-0.5">Frequency vs Monetary: bubble size = CLV</p>
       </div>
 
       <ResponsiveContainer width="100%" height={240}>
         <ScatterChart margin={{ top: 5, right: 5, bottom: 0, left: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
           <XAxis dataKey="x" name="Frequency" type="number"
-            tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} tickLine={false}
-            label={{ value: 'Frequency', position: 'insideBottom', offset: -2, fill: '#64748B', fontSize: 11 }}
+            tick={{ fill: 'var(--chart-tick)', fontSize: 11 }} axisLine={false} tickLine={false}
+            label={{ value: 'Frequency', position: 'insideBottom', offset: -2, fill: 'var(--chart-tick)', fontSize: 11 }}
           />
           <YAxis dataKey="y" name="Monetary" type="number"
-            tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} tickLine={false}
+            tick={{ fill: 'var(--chart-tick)', fontSize: 11 }} axisLine={false} tickLine={false}
           />
           <ZAxis dataKey="z" range={[30, 200]} />
           <Tooltip content={<CustomTooltip />} />
-          <Legend wrapperStyle={{ fontSize: '12px', color: '#94A3B8', paddingTop: '8px' }} />
+          <Legend wrapperStyle={{ fontSize: '12px', color: 'var(--chart-tick)', paddingTop: '8px' }} />
           {segments.map(seg => (
             <Scatter
               key={seg}
               name={seg}
               data={(data || []).filter(d => d.segment === seg)}
-              fill={SEGMENT_COLORS[seg] || '#6366F1'}
+              fill={SEGMENT_COLORS[seg] || '#6B55D3'}
               fillOpacity={0.8}
             />
           ))}

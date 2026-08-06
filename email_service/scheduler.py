@@ -49,12 +49,25 @@ def process_pending_campaigns():
             # 3. Send Emails
             gmail_client = get_gmail_client()
             for log, cust in email_logs:
+                attributes = cust.get('attributes', {})
                 # Render template
                 context = {
                     "CustomerName": cust['name'],
                     "SegmentName": cust['segment_name'],
-                    "DiscountPercentage": "20%" if cust['segment_name'] == 'VIP' else "10%",
-                    "TotalSpend": cust['attributes']['TotalSpend']
+                    "DiscountPercentage": attributes.get("OfferValue", "20%" if cust['segment_name'] == 'VIP' else "10%"),
+                    "TotalSpend": attributes.get('TotalSpend', 0),
+                    "CLV": attributes.get('CLV', 0),
+                    "Recency": attributes.get('Recency', 0),
+                    "ChurnReason": attributes.get("ChurnReason", "Recent engagement has dropped"),
+                    "CLVTier": attributes.get("CLVTier", "Medium"),
+                    "OfferType": attributes.get("OfferType", "Discount"),
+                    "OfferCode": attributes.get("OfferCode", ""),
+                    "OfferValue": attributes.get("OfferValue", ""),
+                    "OfferHeadline": attributes.get("OfferHeadline", "A special offer just for you"),
+                    "OfferDescription": attributes.get("OfferDescription", "Use your personal offer on your next order."),
+                    "RedeemLink": attributes.get("RedeemLink", "#"),
+                    "QRCodeImageUrl": attributes.get("QRCodeImageUrl", ""),
+                    "ExpiryDays": attributes.get("ExpiryDays", 7),
                 }
                 
                 template = campaign.template

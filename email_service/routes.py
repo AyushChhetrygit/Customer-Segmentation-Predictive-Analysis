@@ -8,6 +8,8 @@ from datetime import datetime
 
 router = APIRouter()
 
+VALID_TARGET_SEGMENTS = ["VIP", "AT-RISK", "INACTIVE", "NEW", "HIGH-CHURN-RETENTION"]
+
 # ---- TEMPLATES ----
 @router.get("/templates", response_model=List[schemas.TemplateResponse])
 def get_templates(db: Session = Depends(get_db)):
@@ -30,7 +32,7 @@ def get_campaigns(db: Session = Depends(get_db)):
 @router.post("/campaigns", response_model=schemas.CampaignResponse)
 def create_campaign(campaign: schemas.CampaignCreate, db: Session = Depends(get_db)):
     # Validate segment
-    if campaign.target_segment.upper() not in ["VIP", "AT-RISK", "INACTIVE", "NEW"]:
+    if campaign.target_segment.upper() not in VALID_TARGET_SEGMENTS:
         raise HTTPException(status_code=400, detail="Invalid target segment")
 
     db_item = models.Campaign(

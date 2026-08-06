@@ -15,6 +15,52 @@ const CSV_PATH = path.resolve(__dirname, '..', process.env.CSV_PATH || '../data/
 // ─── Segment label mapping ────────────────────────────────────────────────────
 const SEGMENT_LABELS = { '0': 'Bronze', '1': 'Silver', '2': 'Gold', '3': 'Platinum' };
 
+function parseTimestamp(value) {
+  if (!value) return 0;
+  const normalized = String(value).trim().replace(' ', 'T');
+  const time = Date.parse(normalized);
+  return Number.isNaN(time) ? 0 : time;
+}
+
+function isNewerRecord(candidate, current) {
+  const candidateProcessedAt = parseTimestamp(candidate.processedAt);
+  const currentProcessedAt = parseTimestamp(current.processedAt);
+
+  if (candidateProcessedAt !== currentProcessedAt) {
+    return candidateProcessedAt > currentProcessedAt;
+  }
+
+  const candidateGeneratedAt = parseTimestamp(candidate.generatedAt);
+  const currentGeneratedAt = parseTimestamp(current.generatedAt);
+
+  if (candidateGeneratedAt !== currentGeneratedAt) {
+    return candidateGeneratedAt > currentGeneratedAt;
+  }
+
+  return true;
+}
+
+function deduplicateByCustomerId(rows) {
+  const byCustomerId = new Map();
+  const rowsWithoutCustomerId = [];
+
+  rows.forEach((row) => {
+    const customerID = row.customerID.trim();
+
+    if (!customerID) {
+      rowsWithoutCustomerId.push(row);
+      return;
+    }
+
+    const existing = byCustomerId.get(customerID);
+    if (!existing || isNewerRecord(row, existing)) {
+      byCustomerId.set(customerID, row);
+    }
+  });
+
+  return [...byCustomerId.values(), ...rowsWithoutCustomerId];
+}
+
 /**
  * Parse the CSV file and store records in memory cache.
  * Handles malformed / empty CSV gracefully.
@@ -52,9 +98,10 @@ function loadCSV() {
       .on('end', () => {
         isLoading = false;
         if (results.length > 0) {
-          cachedData = results;
+          cachedData = deduplicateByCustomerId(results);
           lastLoaded = new Date();
-          console.log(`[CSV] Loaded ${results.length} records at ${lastLoaded.toISOString()}`);
+          const removedDuplicates = results.length - cachedData.length;
+          console.log(`[CSV] Loaded ${cachedData.length} unique customers at ${lastLoaded.toISOString()} (${removedDuplicates} duplicate rows merged)`);
         }
         resolve(cachedData);
       })
