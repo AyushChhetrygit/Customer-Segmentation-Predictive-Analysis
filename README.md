@@ -125,12 +125,6 @@ cd ../server && node -c index.js
 cd ../email_service && python3 -m py_compile *.py
 ```
 
-## Interview Talking Points
-
-- Converts raw customer data into retention and revenue actions.
-- Demonstrates segmentation, churn scoring, CLV, dashboarding, APIs, and campaign automation.
-- Designed for small businesses that need customer intelligence without enterprise analytics tools.
-- Includes an end-to-end retention workflow from prediction to personalized outreach.
 
 ## Future Improvements
 
